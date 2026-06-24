@@ -1,0 +1,35 @@
+.badge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.badge-default {
+  background-color: var(--surface-hover);
+  color: var(--text-secondary);
+}
+
+.badge-success {
+  background-color: var(--status-paid-bg);
+  color: var(--status-paid-text);
+}
+
+.badge-warning {
+  background-color: var(--status-warning-bg);
+  color: var(--status-warning-text);
+}
+
+.badge-danger {
+  background-color: var(--status-danger-bg);
+  color: var(--status-danger-text);
+}
+
+.badge-primary {
+  background-color: rgba(59, 130, 246, 0.15);
+  color: var(--primary);
+}
