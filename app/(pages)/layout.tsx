@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { ServiceContextProvider } from "../context/serviceContext";
-import { Sidebar, MobileHeader } from "../components/Sidebar";
+import { Sidebar, MobileHeader } from "../layouts/Sidebar";
 
 export default function PagesLayout({
   children,
