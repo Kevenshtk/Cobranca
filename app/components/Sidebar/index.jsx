@@ -39,22 +39,27 @@ export function Sidebar({ isOpen, toggleSidebar }) {
         </div>
 
         <nav className="sidebar-nav">
-          {navItems.map((item) => (
-            <Link
-              key={item.to}
-              href={item.to}
-              className={`nav-link ${pathname.startsWith(item.to) ? "active" : ""}`}
-              onClick={() => {
-                if (window.innerWidth <= 768) {
-                  toggleSidebar();
-                }
-              }}
-            >
-              <span className="nav-icon">{item.icon}</span>
+          {navItems.map((item) => {
+            const isActive =
+              item.to === "/" ? pathname === "/" : pathname.startsWith(item.to);
 
-              <span className="nav-label">{item.label}</span>
-            </Link>
-          ))}
+            return (
+              <Link
+                key={item.to}
+                href={item.to}
+                className={`nav-link ${isActive ? "active" : ""}`}
+                onClick={() => {
+                  if (window.innerWidth <= 768) {
+                    toggleSidebar();
+                  }
+                }}
+              >
+                <span className="nav-icon">{item.icon}</span>
+
+                <span className="nav-label">{item.label}</span>
+              </Link>
+            );
+          })}
         </nav>
       </aside>
     </>
