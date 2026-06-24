@@ -146,7 +146,7 @@ export default function ServicesList() {
                             variant="ghost"
                             size="sm"
                             title="Editar"
-                            onClick={() => navigate(`/service/${service.id}`)}
+                            onClick={() => router.push(`/service/new/${service.id}`)}
                           >
                             <Edit2 size={16} />
                           </Button>
