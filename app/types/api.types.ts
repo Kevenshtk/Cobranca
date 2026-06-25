@@ -9,7 +9,7 @@ export interface ServiceApi {
 }
 
 export interface HistoryApiDetails {
-  data: string;
+  date: string;
   id: number;
   name_cli: string;
   phone: string;

@@ -16,14 +16,17 @@ export type ServiceResponse<T> =
       message: string;
     };
 
-export interface ServiceRequest {
-  id?: number;
+export interface CreateServiceRequest {
   name_cli: string;
   value: number;
   phone: string;
   desc_service: string;
   date_pay: string;
   pay: boolean;
+}
+
+export interface UpdateServiceRequest extends CreateServiceRequest {
+  id: number;
 }
 
 export type ActionResponse =
