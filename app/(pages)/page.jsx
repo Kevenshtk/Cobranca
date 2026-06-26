@@ -9,7 +9,7 @@ import { Badge } from "../components/Badge";
 import { Loading } from "../components/Loading";
 
 import { ServiceContext } from "../context/serviceContext";
-import formattedDate from "../utils/formatDate";
+import formatDate from "../utils/formatDate";
 import getStatusInfo from "../utils/status";
 
 export default function Dashboard() {
@@ -31,7 +31,7 @@ export default function Dashboard() {
 
       totalReceivable += service.value;
 
-      if (formattedDate(service.date_pay) >= today) {
+      if (formatDate(service.date_pay) >= today) {
         pending++;
       } else {
         overdue++;
@@ -50,8 +50,8 @@ export default function Dashboard() {
     .filter((c) => !c.pay)
     .sort(
       (a, b) =>
-        new Date(formattedDate(a.date_pay)) -
-        new Date(formattedDate(b.date_pay)),
+        new Date(formatDate(a.date_pay)) -
+        new Date(formatDate(b.date_pay)),
     )
     .slice(0, 5);
 
@@ -96,7 +96,7 @@ export default function Dashboard() {
           title="Pagamentos Atrasados"
           value={stats.overdue}
           icon={<AlertCircle size={20} />}
-          trend={stats.overdue > 0 ? "down" : null}
+          trend={stats.overdue > 0 && "down"}
           trendLabel={stats.overdue > 0 ? "Ação necessária" : ""}
         />
       </div>

@@ -12,7 +12,7 @@ import { Button } from "@/app/components/Button";
 import { InputForm, Switch } from "@/app/components/Input";
 import { Loading } from "@/app/components/Loading";
 
-import formattedDate from "@/app/utils/formatDate";
+import formatDate from "@/app/utils/formatDate";
 
 import type { ServiceFormData } from "@/app/types/form.types";
 
@@ -71,7 +71,7 @@ export default function ServiceForm() {
       phone: service.phone,
       desc_service: service.desc_service,
       value: service.value,
-      date_pay: formattedDate(service.date_pay),
+      date_pay: formatDate(service.date_pay),
     });
 
     setPago(service.pay);
