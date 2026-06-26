@@ -90,7 +90,7 @@ export default function Dashboard() {
           title="Pagamentos Pendentes"
           value={stats.pending}
           icon={<Clock size={20} />}
-          trend={stats.pending > 0 ? "warning" : null}
+          trend={stats.pending > 0 && "warning"}
         />
         <StatCard
           title="Pagamentos Atrasados"
