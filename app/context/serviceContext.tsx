@@ -17,7 +17,7 @@ import type { ServiceApi, HistoryApiDetails } from "@/app/types/api.types";
 import serviceApi from "../services/serviceApi";
 import alert from "../utils/alerts";
 
-export const ServiceContext = createContext<ServiceContextType | null>(null);
+export const ServiceContext = createContext<ServiceContextType | undefined>(undefined);
 
 export const ServiceContextProvider = ({ children }: ServiceProviderProps) => {
   const [services, setServices] = useState<ServiceApi[]>([]);
