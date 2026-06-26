@@ -1,8 +1,8 @@
-import type { ReactNode } from "react";
+import type { ReactNode, HTMLAttributes  } from "react";
 
 import "./styles.css";
 
-interface CardProps {
+interface CardProps extends HTMLAttributes<HTMLDivElement> {
   children: ReactNode;
   className?: string;
   title?: string;

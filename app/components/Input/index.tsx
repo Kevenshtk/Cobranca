@@ -1,5 +1,10 @@
 import type { ServiceFormData } from "@/app/types/form.types";
-import type { InputFormProps, InputProps, SelectProps, SwitchProps } from "./inputs.types";
+import type {
+  InputFormProps,
+  InputProps,
+  SelectProps,
+  SwitchProps,
+} from "./inputs.types";
 
 import "./styles.css";
 
@@ -50,7 +55,12 @@ export function InputForm({
         id={id}
         type={type}
         className={`input-field ${errors?.[id] ? "input-error" : ""}`}
-        {...register(id, { required: `${label} é obrigatório` })}
+        {...register(id, {
+          required: `${label} é obrigatório`,
+          ...(type === "number" && {
+            valueAsNumber: true,
+          }),
+        })}
         {...props}
       />
 
@@ -94,7 +104,6 @@ export function Switch({
   onChange,
   className = "",
 }: SwitchProps) {
-
   const handleToggle = () => {
     onChange(!checked);
   };

@@ -1,9 +1,9 @@
 "use client";
 
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useRouter, useParams } from "next/navigation";
-
 import { useForm } from "react-hook-form";
+import { useServiceContext } from "@/app/hook/useServiceContext";
 
 import { ArrowLeft, Save, X } from "lucide-react";
 
@@ -12,17 +12,26 @@ import { Button } from "@/app/components/Button";
 import { InputForm, Switch } from "@/app/components/Input";
 import { Loading } from "@/app/components/Loading";
 
-import { ServiceContext } from "@/app/context/serviceContext";
 import formattedDate from "@/app/utils/formatDate";
 
+import type { ServiceFormData } from "@/app/types/form.types";
+
 export default function ServiceForm() {
-  const { id } = useParams();
+  const params = useParams();
+  const id = Number(params.id);
+
   const router = useRouter();
 
   const isEditing = Boolean(id);
 
-  const { loadService, service, clearService, loading, handleAdd, handleUpdate } =
-    useContext(ServiceContext);
+  const {
+    loadService,
+    service,
+    clearService,
+    loading,
+    handleAdd,
+    handleUpdate,
+  } = useServiceContext();
 
   const [pago, setPago] = useState(false);
 
@@ -31,12 +40,12 @@ export default function ServiceForm() {
     reset,
     handleSubmit,
     formState: { isSubmitting, errors },
-  } = useForm({
+  } = useForm<ServiceFormData>({
     defaultValues: {
       name_cli: "",
       phone: "",
       desc_service: "",
-      value: "",
+      value: 0,
       date_pay: "",
     },
   });
@@ -47,7 +56,7 @@ export default function ServiceForm() {
       return;
     }
 
-    clearService(null);
+    clearService();
 
     reset();
 
@@ -68,14 +77,13 @@ export default function ServiceForm() {
     setPago(service.pay);
   }, [service, reset, isEditing]);
 
-  const handleSwitchChange = (checked) => {
+  const handleSwitchChange = (checked: boolean) => {
     setPago(checked);
   };
 
-  const onSubmit = async (d) => {
+  const onSubmit = async (d: ServiceFormData) => {
     const data = {
       ...d,
-      value: parseFloat(d.value),
       pay: pago,
     };
 
@@ -96,11 +104,7 @@ export default function ServiceForm() {
     <div className="page-animate">
       <div className="page-header">
         <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
-          <Button
-            variant="ghost"
-            size="sm"
-            onClick={() => router.back()}
-          >
+          <Button variant="ghost" size="sm" onClick={() => router.back()}>
             <ArrowLeft size={20} />
           </Button>
           <div>
@@ -170,6 +174,7 @@ export default function ServiceForm() {
           <div style={{ marginTop: "1.5rem", marginBottom: "1.5rem" }}>
             <Switch
               label="Marcar como Pago"
+              id="pay"
               checked={pago}
               onChange={handleSwitchChange}
             />
