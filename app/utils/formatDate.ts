@@ -1,6 +1,10 @@
 const formatDate = (date: string): string => {
-    const [day, month, year] = date.split("/");
-    return `${year}-${month}-${day}`;
+  if (!date) {
+    throw new Error("formatDate recebeu uma data inválida");
+  }
+
+  const [day, month, year] = date.split("/");
+  return `${year}-${month}-${day}`;
 };
 
 export default formatDate;

@@ -6,18 +6,12 @@ export type BadgeVariant =
   | "warning"
   | "danger";
 
-interface GetStatusInfoParams  {
-  date: string;
-  isPaid: boolean;
-  detailed?: boolean;
-}
-
 interface StatusInfo {
   variant: BadgeVariant;
   label: string; 
 }
 
-const getStatusInfo = ({date, isPaid, detailed = true}: GetStatusInfoParams): StatusInfo => {
+const getStatusInfo = (date: string , isPaid: boolean, detailed: boolean = true): StatusInfo => {
   if (isPaid) return { variant: "success", label: "Pago" };
 
   const today = new Date().toISOString().split("T")[0];
