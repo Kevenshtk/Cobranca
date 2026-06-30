@@ -89,7 +89,7 @@ export const ServiceContextProvider = ({ children }: ServiceProviderProps) => {
       return;
     }
 
-    alert.success(result.message);
+    alert.success(result.message ?? "Operação realizada com sucesso.");
 
     if (loader) {
       await loader();
