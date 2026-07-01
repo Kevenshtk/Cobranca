@@ -223,7 +223,7 @@ export default function AutomationConfig() {
         }}
       >
         <Button
-          //onClick={() => handleSave}
+          onClick={() => alert("Funcionalidade indisponível")}
           disabled={false}
           icon={<Save size={16} />}
           size="lg"

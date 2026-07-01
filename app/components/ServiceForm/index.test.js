@@ -121,6 +121,10 @@ describe("ServiceForm - Cadastro", () => {
   it("deve exibir mensagem de validação quando o formulário for enviado sem preencher os campos", async () => {
     renderForm();
 
+    const input = getInputs();
+
+    await userEvent.clear(input.value);
+
     await userEvent.click(
       screen.getByRole("button", { name: /Salvar Serviço/i }),
     );

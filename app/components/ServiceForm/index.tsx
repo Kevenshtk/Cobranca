@@ -45,7 +45,7 @@ export default function ServiceForm() {
       name_cli: "",
       phone: "",
       desc_service: "",
-      value: undefined,
+      value: 0,
       date_pay: "",
     },
   });
