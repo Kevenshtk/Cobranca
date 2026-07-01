@@ -1,14 +1,14 @@
 import { toast } from "sonner";
 
-const showSuccess = (msg) => {
+const showSuccess = (msg: string): void => {
   toast.success(msg);
 };
 
-const showError = (msg) => {
+const showError = (msg: string): void => {
   toast.info(msg);
 };
 
-const showDelete = (msg, onConfirm) => {
+const showDelete = (msg: string, onConfirm: () => void | Promise<void>): void => {
   toast(msg, {
     action: {
       label: "Excluir",
@@ -16,6 +16,7 @@ const showDelete = (msg, onConfirm) => {
     },
     cancel: {
       label: "Cancelar",
+       onClick: () => {},
     },
   });
 };

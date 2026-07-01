@@ -1,18 +1,30 @@
+import type { ServiceFormData } from "@/app/types/form.types";
+import type {
+  InputFormProps,
+  InputProps,
+  SelectProps,
+  SwitchProps,
+} from "./inputs.types";
+
 import "./styles.css";
 
-export function Input({ label, error, className = "", id, ...props }) {
-  const inputId = id || label?.toLowerCase().replace(/\s+/g, "-");
-
+export function Input({
+  id,
+  label,
+  error,
+  className = "",
+  ...props
+}: InputProps) {
   return (
     <div className={`input-group ${className}`}>
       {label && (
-        <label htmlFor={inputId} className="input-label">
+        <label htmlFor={id} className="input-label">
           {label}
         </label>
       )}
 
       <input
-        id={inputId}
+        id={id}
         className={`input-field ${error ? "input-error" : ""}`}
         {...props}
       />
@@ -23,85 +35,87 @@ export function Input({ label, error, className = "", id, ...props }) {
 }
 
 export function InputForm({
-  label,
   id,
+  label,
   type = "text",
   errors,
   register,
   className = "",
   ...props
-}) {
-  const inputId = id || label?.toLowerCase().replace(/\s+/g, "-");
-
+}: InputFormProps<ServiceFormData>) {
   return (
     <div className={`input-group ${className}`}>
       {label && (
-        <label htmlFor={inputId} className="input-label">
+        <label htmlFor={id} className="input-label">
           {label}
         </label>
       )}
 
       <input
-        id={inputId}
+        id={id}
         type={type}
-        className={`input-field ${errors?.[inputId] ? "input-error" : ""}`}
-        {...register(inputId, { required: `${label} é obrigatório` })}
+        className={`input-field ${errors?.[id] ? "input-error" : ""}`}
+        {...register(id, {
+          required: `${label} é obrigatório`,
+          ...(type === "number" && {
+            valueAsNumber: true,
+          }),
+        })}
         {...props}
       />
 
-      {errors?.[inputId] && (
-        <span className="input-error-message">{errors?.[inputId].message}</span>
+      {errors?.[id] && (
+        <span className="input-error-message">{errors?.[id].message}</span>
       )}
     </div>
   );
 }
 
 export function Select({
+  id,
   label,
-  error,
   options,
   className = "",
-  id,
   ...props
-}) {
-  const selectId = id || label?.toLowerCase().replace(/\s+/g, "-");
-
+}: SelectProps) {
   return (
     <div className={`input-group ${className}`}>
       {label && (
-        <label htmlFor={selectId} className="input-label">
+        <label htmlFor={id} className="input-label">
           {label}
         </label>
       )}
 
-      <select
-        id={selectId}
-        className={`input-field select-field ${error ? "input-error" : ""}`}
-        {...props}
-      >
+      <select id={id} className={"input-field select-field"} {...props}>
         {options.map((opt) => (
           <option key={opt.value} value={opt.value}>
             {opt.label}
           </option>
         ))}
       </select>
-
-      {error && <span className="input-error-message">{error}</span>}
     </div>
   );
 }
 
-export function Switch({ label, checked, onChange, className = "", id }) {
-  const switchId = id || label?.toLowerCase().replace(/\s+/g, "-");
+export function Switch({
+  id,
+  label,
+  checked,
+  onChange,
+  className = "",
+}: SwitchProps) {
+  const handleToggle = () => {
+    onChange(!checked);
+  };
 
   return (
     <div className={`switch-group ${className}`}>
       <button
         type="button"
-        id={switchId}
+        id={id}
         role="switch"
         aria-checked={checked}
-        onClick={() => onChange(!checked)}
+        onClick={handleToggle}
         className={`switch-btn ${checked ? "switch-checked" : ""}`}
       >
         <span
@@ -110,7 +124,7 @@ export function Switch({ label, checked, onChange, className = "", id }) {
       </button>
 
       {label && (
-        <span className="switch-label" onClick={() => onChange(!checked)}>
+        <span className="switch-label" onClick={handleToggle}>
           {label}
         </span>
       )}

@@ -71,6 +71,7 @@ export default function ServicesList() {
           <div style={{ flex: "1 1 300px" }}>
             <Input
               placeholder="Buscar por cliente..."
+              id="searchClient"
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               icon={<Search size={16} />}
@@ -79,6 +80,7 @@ export default function ServicesList() {
 
           <div style={{ width: "200px" }}>
             <Select
+              id="statusFilter"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value)}
               options={[
@@ -146,7 +148,9 @@ export default function ServicesList() {
                             variant="ghost"
                             size="sm"
                             title="Editar"
-                            onClick={() => router.push(`/services/edit/${service.id}`)}
+                            onClick={() =>
+                              router.push(`/services/edit/${service.id}`)
+                            }
                           >
                             <Edit2 size={16} />
                           </Button>

@@ -6,13 +6,13 @@ jest.mock("../api", () => ({
   __esModule: true,
   default: {
     get: jest.fn(),
-    getById: jest.fn(),
-    getLogs: jest.fn(),
     post: jest.fn(),
     put: jest.fn(),
     delete: jest.fn(),
   },
 }));
+
+const mockedApi = apiN8N as jest.Mocked<typeof apiN8N>;
 
 beforeEach(() => {
   jest.clearAllMocks();
@@ -47,7 +47,7 @@ describe("Service API", () => {
   };
 
   it("deve retornar erro de comunicação quando não houver resposta da API", async () => {
-    apiN8N.get.mockRejectedValueOnce({
+    mockedApi.get.mockRejectedValueOnce({
       isAxiosError: true,
       response: {},
     });
@@ -73,7 +73,7 @@ describe("Service API", () => {
     ];
 
     it("deve retornar uma lista de serviços", async () => {
-      apiN8N.get.mockResolvedValueOnce({
+      mockedApi.get.mockResolvedValueOnce({
         data: {
           success: true,
           services: [serviceData],
@@ -82,7 +82,7 @@ describe("Service API", () => {
 
       const result = await serviceApi.get();
 
-      expect(apiN8N.get).toHaveBeenCalledWith("get");
+      expect(mockedApi.get).toHaveBeenCalledWith("get");
 
       expect(result).toEqual({
         success: true,
@@ -91,7 +91,7 @@ describe("Service API", () => {
     });
 
     it("deve retornar uma messagem de erro genérico quando ocorrer falha no workflow ao buscar os serviços", async () => {
-      apiN8N.get.mockResolvedValueOnce({
+      mockedApi.get.mockResolvedValueOnce({
         data: {
           success: false,
           services: [],
@@ -100,13 +100,13 @@ describe("Service API", () => {
 
       const result = await serviceApi.get();
 
-      expect(apiN8N.get).toHaveBeenCalledWith("get");
+      expect(mockedApi.get).toHaveBeenCalledWith("get");
 
       expect(result).toEqual(returnError);
     });
 
     it("deve retornar a mensagem da API quando ocorrer um AxiosError ao buscar os serviços", async () => {
-      apiN8N.get.mockRejectedValueOnce(axiosError);
+      mockedApi.get.mockRejectedValueOnce(axiosError);
 
       const result = await serviceApi.get();
 
@@ -117,7 +117,7 @@ describe("Service API", () => {
     });
 
     it("deve retornar os dados do serviço", async () => {
-      apiN8N.get.mockResolvedValueOnce({
+      mockedApi.get.mockResolvedValueOnce({
         data: {
           success: true,
           service: [serviceData],
@@ -126,7 +126,7 @@ describe("Service API", () => {
 
       const result = await serviceApi.getById(1);
 
-      expect(apiN8N.get).toHaveBeenCalledWith("getById?id=1");
+      expect(mockedApi.get).toHaveBeenCalledWith("getById?id=1");
 
       expect(result).toEqual({
         success: true,
@@ -135,7 +135,7 @@ describe("Service API", () => {
     });
 
     it("deve retornar uma messagem de erro genérico quando ocorrer falha no workflow ao buscar o serviço", async () => {
-      apiN8N.get.mockResolvedValueOnce({
+      mockedApi.get.mockResolvedValueOnce({
         data: {
           success: false,
           service: [],
@@ -144,13 +144,13 @@ describe("Service API", () => {
 
       const result = await serviceApi.getById(1);
 
-      expect(apiN8N.get).toHaveBeenCalledWith("getById?id=1");
+      expect(mockedApi.get).toHaveBeenCalledWith("getById?id=1");
 
       expect(result).toEqual(returnError);
     });
 
     it("deve retornar a mensagem da API quando ocorrer um AxiosError ao buscar o serviço", async () => {
-      apiN8N.get.mockRejectedValueOnce(axiosError);
+      mockedApi.get.mockRejectedValueOnce(axiosError);
 
       const result = await serviceApi.getById(1);
 
@@ -182,7 +182,7 @@ describe("Service API", () => {
     ];
 
     it("deve retornar uma lista com o histório de envio de mensagem", async () => {
-      apiN8N.get.mockResolvedValueOnce({
+      mockedApi.get.mockResolvedValueOnce({
         data: {
           success: true,
           history: [historyData],
@@ -191,7 +191,7 @@ describe("Service API", () => {
 
       const result = await serviceApi.getLogs();
 
-      expect(apiN8N.get).toHaveBeenCalledWith("getShoppingHistory");
+      expect(mockedApi.get).toHaveBeenCalledWith("getShoppingHistory");
 
       expect(result).toEqual({
         success: true,
@@ -200,7 +200,7 @@ describe("Service API", () => {
     });
 
     it("deve retornar uma messagem de erro genérico quando ocorrer falha no workflow ao buscar o histórico", async () => {
-      apiN8N.get.mockResolvedValueOnce({
+      mockedApi.get.mockResolvedValueOnce({
         data: {
           success: false,
           history: [],
@@ -209,13 +209,13 @@ describe("Service API", () => {
 
       const result = await serviceApi.getLogs();
 
-      expect(apiN8N.get).toHaveBeenCalledWith("getShoppingHistory");
+      expect(mockedApi.get).toHaveBeenCalledWith("getShoppingHistory");
 
       expect(result).toEqual(returnError);
     });
 
     it("deve retornar a mensagem da API quando ocorrer um AxiosError ao buscar o histórico", async () => {
-      apiN8N.get.mockRejectedValueOnce(axiosError);
+      mockedApi.get.mockRejectedValueOnce(axiosError);
 
       const result = await serviceApi.getLogs();
 
@@ -228,7 +228,7 @@ describe("Service API", () => {
 
   describe("Add service", () => {
     it("deve retornar uma messagem de sucesso ao registrar um serviço", async () => {
-      apiN8N.post.mockResolvedValueOnce({
+      mockedApi.post.mockResolvedValueOnce({
         data: {
           success: true,
           message: "Serviço adicionado com sucesso!",
@@ -238,7 +238,7 @@ describe("Service API", () => {
 
       const result = await serviceApi.add(serviceDataGlogal);
 
-      expect(apiN8N.post).toHaveBeenCalledWith("add", serviceDataGlogal);
+      expect(mockedApi.post).toHaveBeenCalledWith("add", serviceDataGlogal);
 
       expect(result).toEqual({
         success: true,
@@ -247,7 +247,7 @@ describe("Service API", () => {
     });
 
     it("deve retornar uma messagem de erro genérico quando ocorrer falha no workflow ao registrar um serviço", async () => {
-      apiN8N.post.mockResolvedValueOnce({
+      mockedApi.post.mockResolvedValueOnce({
         data: {
           success: false,
           message: "Erro ao adicionar serviço, tente mais tarde!",
@@ -256,13 +256,13 @@ describe("Service API", () => {
 
       const result = await serviceApi.add(serviceDataGlogal);
 
-      expect(apiN8N.post).toHaveBeenCalledWith("add", serviceDataGlogal);
+      expect(mockedApi.post).toHaveBeenCalledWith("add", serviceDataGlogal);
 
       expect(result).toEqual(returnError);
     });
 
     it("deve retornar a mensagem da API quando ocorrer um AxiosError ao registrar um serviço", async () => {
-      apiN8N.post.mockRejectedValueOnce(axiosError);
+      mockedApi.post.mockRejectedValueOnce(axiosError);
 
       const result = await serviceApi.add(serviceDataGlogal);
 
@@ -280,7 +280,7 @@ describe("Service API", () => {
     };
 
     it("deve retornar uma messagem de sucesso ao atualizar um serviço", async () => {
-      apiN8N.put.mockResolvedValueOnce({
+      mockedApi.put.mockResolvedValueOnce({
         data: {
           success: true,
           message: "Serviço atualizado com sucesso",
@@ -290,7 +290,7 @@ describe("Service API", () => {
 
       const result = await serviceApi.update(1, serviceDataRequest);
 
-      expect(apiN8N.put).toHaveBeenCalledWith("update", serviceDataRequest);
+      expect(mockedApi.put).toHaveBeenCalledWith("update", serviceDataRequest);
 
       expect(result).toEqual({
         success: true,
@@ -299,7 +299,7 @@ describe("Service API", () => {
     });
 
     it("deve retornar uma messagem de erro genérico quando ocorrer falha no workflow ao atualizar um serviço", async () => {
-      apiN8N.put.mockResolvedValueOnce({
+      mockedApi.put.mockResolvedValueOnce({
         data: {
           success: false,
           message: "Erro ao atualizar serviço",
@@ -308,13 +308,13 @@ describe("Service API", () => {
 
       const result = await serviceApi.update(1, serviceDataGlogal);
 
-      expect(apiN8N.put).toHaveBeenCalledWith("update", serviceDataRequest);
+      expect(mockedApi.put).toHaveBeenCalledWith("update", serviceDataRequest);
 
       expect(result).toEqual(returnError);
     });
 
     it("deve retornar a mensagem da API quando ocorrer um AxiosError ao atualizar um serviço", async () => {
-      apiN8N.put.mockRejectedValueOnce(axiosError);
+      mockedApi.put.mockRejectedValueOnce(axiosError);
 
       const result = await serviceApi.update(1, serviceDataGlogal);
 
@@ -327,7 +327,7 @@ describe("Service API", () => {
 
   describe("Delete service", () => {
     it("deve retornar uma messagem de sucesso ao deletar um serviço", async () => {
-      apiN8N.delete.mockResolvedValueOnce({
+      mockedApi.delete.mockResolvedValueOnce({
         data: {
           success: true,
           message: "Serviço deletado com sucesso",
@@ -336,7 +336,7 @@ describe("Service API", () => {
 
       const result = await serviceApi.del(1);
 
-      expect(apiN8N.delete).toHaveBeenCalledWith("del?id=1");
+      expect(mockedApi.delete).toHaveBeenCalledWith("del?id=1");
 
       expect(result).toEqual({
         success: true,
@@ -345,7 +345,7 @@ describe("Service API", () => {
     });
 
     it("deve retornar uma messagem de erro genérico quando ocorrer falha no workflow ao deletar um serviço", async () => {
-      apiN8N.delete.mockResolvedValueOnce({
+      mockedApi.delete.mockResolvedValueOnce({
         data: {
           success: false,
           message: "Erro ao deletar serviço",
@@ -354,13 +354,13 @@ describe("Service API", () => {
 
       const result = await serviceApi.del(1);
 
-      expect(apiN8N.delete).toHaveBeenCalledWith("del?id=1");
+      expect(mockedApi.delete).toHaveBeenCalledWith("del?id=1");
 
       expect(result).toEqual(returnError);
     });
 
     it("deve retornar a mensagem da API quando ocorrer um AxiosError ao deletar um serviço", async () => {
-      apiN8N.delete.mockRejectedValueOnce(axiosError);
+      mockedApi.delete.mockRejectedValueOnce(axiosError);
 
       const result = await serviceApi.del(1);
 

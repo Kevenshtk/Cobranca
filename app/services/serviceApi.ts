@@ -11,7 +11,7 @@ import type {
 import type {
   ServiceError,
   GetServicesResponse,
-  ServiceRequest,
+  CreateServiceRequest,
   GetServiceResponse,
   GetHistoryResponse,
   ActionResponse
@@ -75,7 +75,7 @@ const getHistoryMessages = async (): Promise<GetHistoryResponse> => {
 };
 
 const addService = async (
-  data: ServiceRequest,
+  data: CreateServiceRequest,
 ): Promise<ActionResponse> => {
   try {
     const response = await apiN8N.post<ServiceApiResponse>("add", {
@@ -97,7 +97,7 @@ const addService = async (
 
 const updateService = async (
   id: number,
-  data: ServiceRequest,
+  data: CreateServiceRequest,
 ): Promise<ActionResponse> => {
   try {
     const response = await apiN8N.put<ServiceApiResponse>("update", {
