@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useContext } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { Plus, Search, Edit2, Trash2, CheckCircle } from "lucide-react";
@@ -11,13 +11,13 @@ import { Button } from "@/app/components/Button";
 import { Input, Select } from "@/app/components/Input";
 import { Loading } from "@/app/components/Loading";
 
-import { ServiceContext } from "@/app/context/serviceContext";
+import { useServiceContext } from "@/app/hook/useServiceContext";
 import getStatusInfo from "@/app/utils/status";
 
 export default function ServicesList() {
   const router = useRouter();
   const { loadServices, services, loading, handleMarkAsPaid, handleDelete } =
-    useContext(ServiceContext);
+    useServiceContext();
 
   const [searchTerm, setSearchTerm] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
@@ -171,7 +171,7 @@ export default function ServicesList() {
                 {filteredServices.length === 0 && (
                   <tr>
                     <td
-                      colSpan="7"
+                      colSpan={7}
                       className="text-center text-muted"
                       style={{ padding: "2rem" }}
                     >

@@ -1,15 +1,15 @@
 "use client";
 
-import { useEffect, useContext } from "react";
+import { useEffect } from "react";
 
 import { Card } from "@/app/components/Card";
 import { Badge } from "@/app/components/Badge";
 import { Loading } from "@/app/components/Loading";
 
-import { ServiceContext } from "@/app/context/serviceContext";
+import { useServiceContext } from "@/app/hook/useServiceContext";
 
 export default function History() {
-  const { loadHistory, history, loading } = useContext(ServiceContext);
+  const { loadHistory, history, loading } = useServiceContext();
 
   useEffect(() => {
     loadHistory();
@@ -55,7 +55,7 @@ export default function History() {
                 {history.length === 0 && (
                   <tr>
                     <td
-                      colSpan="6"
+                      colSpan={6}
                       className="text-center text-muted"
                       style={{ padding: "2rem" }}
                     >
