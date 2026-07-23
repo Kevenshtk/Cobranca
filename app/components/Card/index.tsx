@@ -10,9 +10,9 @@ interface CardProps extends HTMLAttributes<HTMLDivElement> {
 
 interface StatCardProps {
   title: string;
-  value: number;
+  value: string;
   icon?: ReactNode;
-  trend?: 'up' | 'down' | 'warning';
+  trend?: 'up' | 'down' | 'warning' | false;
   trendLabel?: string;
 }
 

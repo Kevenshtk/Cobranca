@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import { Save, Webhook, Bot } from "lucide-react";
 
 import { Card } from "@/app/components/Card";
@@ -7,6 +8,16 @@ import { Button } from "@/app/components/Button";
 import { Input, Switch } from "@/app/components/Input";
 
 export default function AutomationConfig() {
+  const [automaticSend, setAutomaticSend] = useState(true);
+  const [sendOnDay, setSendOnDay] = useState(true);
+
+  const handleAutomaticSendToggle = (checked: boolean) => {
+    setAutomaticSend(checked);
+  };
+
+  const handleSendOnDayToggle = (checked: boolean) => {
+    setSendOnDay(checked);
+  };
 
   return (
     <div className="page-animate">
@@ -56,8 +67,10 @@ export default function AutomationConfig() {
                   </p>
                 </div>
               </div>
-              <Switch checked={true} 
-              //onChange={() => handleToggle("active")} 
+              <Switch
+                id="automatic-send"
+                checked={automaticSend}
+                onChange={() => handleAutomaticSendToggle(!automaticSend)}
               />
             </div>
           </Card>
@@ -93,9 +106,10 @@ export default function AutomationConfig() {
               <div>
                 <h4 style={{ marginBottom: "0.5rem" }}>No Dia</h4>
                 <Switch
+                  id="send-on-day"
                   label="Enviar no dia do vencimento"
-                  checked={true}
-                  //onChange={() => handleToggle("onDueDate")}
+                  checked={sendOnDay}
+                  onChange={() => handleSendOnDayToggle(!sendOnDay)}
                   disabled={!true}
                 />
               </div>

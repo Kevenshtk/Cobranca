@@ -28,7 +28,7 @@ Durante o desenvolvimento, o projeto também serviu para aprofundar conhecimento
 
 - [Demonstração](#-demonstração)
 - [Funcionalidades](#-funcionalidades)
-- [Tecnologias](#-tecnologias)
+- [Tecnologias](#%EF%B8%8F-tecnologias)
 - [Estrutura do projeto](#-estrutura-do-projeto)
 - [Melhorias futuras](#-melhorias-futuras)
 - [API](#-api)

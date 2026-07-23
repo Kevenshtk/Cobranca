@@ -11,9 +11,15 @@ import {
   Menu,
   X,
 } from "lucide-react";
+
 import "./styles.css";
 
-export function Sidebar({ isOpen, toggleSidebar }) {
+interface SidebarProps {
+  isOpen: boolean;
+  toggleSidebar: () => void;
+}
+
+export function Sidebar({ isOpen, toggleSidebar }: SidebarProps) {
   const navItems = [
     { to: "/", icon: <LayoutDashboard size={20} />, label: "Dashboard" },
     { to: "/services", icon: <Users size={20} />, label: "Serviços" },
@@ -66,7 +72,7 @@ export function Sidebar({ isOpen, toggleSidebar }) {
   );
 }
 
-export function MobileHeader({ toggleSidebar }) {
+export function MobileHeader({ toggleSidebar }: { toggleSidebar: () => void }) {
   return (
     <div className="mobile-header">
       <button className="menu-btn" onClick={toggleSidebar}>

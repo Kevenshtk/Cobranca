@@ -1,4 +1,4 @@
-import type { InputHTMLAttributes, SelectHTMLAttributes } from "react";
+import type { ReactNode, InputHTMLAttributes, SelectHTMLAttributes } from "react";
 import type {
   FieldValues,
   FieldErrors,
@@ -10,6 +10,7 @@ export interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;
   error?: string;
   className?: string;
+  icon?: ReactNode;
 }
 
 export interface InputFormProps<
@@ -37,4 +38,5 @@ export interface SwitchProps {
   checked: boolean;
   onChange: (checked: boolean) => void;
   className?: string;
+  disabled?: boolean;
 }

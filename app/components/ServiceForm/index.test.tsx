@@ -7,6 +7,8 @@ import { ServiceContext } from "@/app/context/serviceContext";
 import formatDate from "@/app/utils/formatDate";
 import ServiceForm from "./index";
 
+import type { ServiceContextType } from "@/app/types/context.types";
+
 jest.mock("next/navigation", () => ({
   useRouter: jest.fn(),
   useParams: jest.fn(),
@@ -16,6 +18,10 @@ jest.mock("../../utils/formatDate", () => ({
   __esModule: true,
   default: jest.fn(),
 }));
+
+const mockedUseParams = jest.mocked(useParams);
+const mockedFormatDate = jest.mocked(formatDate);
+const mockedUseRouter = jest.mocked(useRouter);
 
 const mockBack = jest.fn();
 
@@ -36,7 +42,7 @@ const getInputs = () => ({
   date_pay: screen.getByLabelText(/Data de Pagamento/i),
 });
 
-const defaultContext = {
+const defaultContext: Partial<ServiceContextType> = {
   loadService: jest.fn(),
   service: null,
   clearService: jest.fn(),
@@ -51,7 +57,7 @@ const renderForm = (overrides = {}) => {
       value={{
         ...defaultContext,
         ...overrides,
-      }}
+      } as ServiceContextType}
     >
       <ServiceForm />
     </ServiceContext.Provider>,
@@ -61,12 +67,17 @@ const renderForm = (overrides = {}) => {
 beforeEach(() => {
   jest.clearAllMocks();
 
-  useParams.mockReturnValue({});
+  mockedUseParams.mockReturnValue({});
 
-  formatDate.mockReturnValue("");
+  mockedFormatDate.mockReturnValue("");
 
-  useRouter.mockReturnValue({
+  mockedUseRouter.mockReturnValue({
     back: mockBack,
+    forward: jest.fn(),
+    refresh: jest.fn(),
+    push: jest.fn(),
+    replace: jest.fn(),
+    prefetch: jest.fn(),
   });
 });
 
@@ -138,7 +149,9 @@ describe("ServiceForm - Cadastro", () => {
     expect(
       screen.getByText(/Serviço Prestado é obrigatório/i),
     ).toBeInTheDocument();
-    expect(screen.getByText(/Valor \(R\$\) é obrigatório/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/Valor \(R\$\) é obrigatório/i),
+    ).toBeInTheDocument();
     expect(
       screen.getByText(/Data de Pagamento \(Vencimento\) é obrigatório/i),
     ).toBeInTheDocument();
@@ -149,7 +162,7 @@ describe("ServiceForm - Cadastro", () => {
 
 describe("ServiceForm - Edição", () => {
   it("deve chamar loadService com o valor de useParams", () => {
-    useParams.mockReturnValue({ id: "1" });
+    mockedUseParams.mockReturnValue({ id: "1" });
 
     renderForm();
 
@@ -157,8 +170,8 @@ describe("ServiceForm - Edição", () => {
   });
 
   it("deve renderizar o formulário de edição com os campos preenchidos", () => {
-    useParams.mockReturnValue({ id: "1" });
-    formatDate.mockReturnValue("2026-06-25");
+    mockedUseParams.mockReturnValue({ id: "1" });
+    mockedFormatDate.mockReturnValue("2026-06-25");
 
     renderForm({
       service: serviceData,
@@ -180,8 +193,8 @@ describe("ServiceForm - Edição", () => {
   });
 
   it("deve chamar handleUpdade com os dados do formulário", async () => {
-    useParams.mockReturnValue({ id: "1" });
-    formatDate.mockReturnValue("2026-06-25");
+    mockedUseParams.mockReturnValue({ id: "1" });
+    mockedFormatDate.mockReturnValue("2026-06-25");
 
     renderForm({ service: serviceData });
 
@@ -205,8 +218,8 @@ describe("ServiceForm - Edição", () => {
   });
 
   it("deve voltar para a listagem ao clicar em Cancelar", async () => {
-    useParams.mockReturnValue({ id: "1" });
-    formatDate.mockReturnValue("2026-06-25");
+    mockedUseParams.mockReturnValue({ id: "1" });
+    mockedFormatDate.mockReturnValue("2026-06-25");
 
     renderForm({ service: serviceData });
 

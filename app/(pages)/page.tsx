@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useContext } from "react";
+import { useEffect, useMemo } from "react";
 
 import { Users, DollarSign, AlertCircle, Clock } from "lucide-react";
 
@@ -8,12 +8,12 @@ import { StatCard, Card } from "../components/Card";
 import { Badge } from "../components/Badge";
 import { Loading } from "../components/Loading";
 
-import { ServiceContext } from "../context/serviceContext";
+import { useServiceContext } from "../hook/useServiceContext";
 import formatDate from "../utils/formatDate";
 import getStatusInfo from "../utils/status";
 
 export default function Dashboard() {
-  const { loadServices, services, loading } = useContext(ServiceContext);
+  const { loadServices, services, loading } = useServiceContext();
 
   useEffect(() => {
     loadServices()
@@ -50,8 +50,8 @@ export default function Dashboard() {
     .filter((c) => !c.pay)
     .sort(
       (a, b) =>
-        new Date(formatDate(a.date_pay)) -
-        new Date(formatDate(b.date_pay)),
+        new Date(formatDate(a.date_pay)).getTime() -
+        new Date(formatDate(b.date_pay)).getTime(),
     )
     .slice(0, 5);
 
@@ -78,7 +78,7 @@ export default function Dashboard() {
       >
         <StatCard
           title="Total de Serviços"
-          value={stats.totalClients}
+          value={`${stats.totalClients}`}
           icon={<Users size={20} />}
         />
         <StatCard
@@ -88,13 +88,13 @@ export default function Dashboard() {
         />
         <StatCard
           title="Pagamentos Pendentes"
-          value={stats.pending}
+          value={`${stats.pending}`}
           icon={<Clock size={20} />}
           trend={stats.pending > 0 && "warning"}
         />
         <StatCard
           title="Pagamentos Atrasados"
-          value={stats.overdue}
+          value={`${stats.overdue}`}
           icon={<AlertCircle size={20} />}
           trend={stats.overdue > 0 && "down"}
           trendLabel={stats.overdue > 0 ? "Ação necessária" : ""}
